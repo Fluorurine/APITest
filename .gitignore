@@ -1,0 +1,20 @@
+
+
+#  Tắt các ignore trong node theo ChatGPT
+# Ignore node_modules directory
+node_modules/
+
+# Ignore log files
+*.log
+
+# Ignore npm debug log files
+npm-debug.log*
+
+# Ignore .env file (contains sensitive information)
+.env
+
+# Ignore .DS_Store files (created by macOS)
+.DS_Store
+
+# Ignore .idea directory (created by JetBrains IDEs)
+.idea/
