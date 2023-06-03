@@ -5,8 +5,8 @@ const MongoUtil = require("./app/utils/MongoConnection.js");
 
 async function startServer() {
   try {
-    await MongoUtil.connectToServer();
-    console.log("Đã kết nối CSDL thành công");
+    // await MongoUtil.connectToServer();
+    // console.log("Đã kết nối CSDL thành công");
     app.listen(PORT, () => {
       console.log(
         `Server is Running on port ${PORT}`,

@@ -1,0 +1,1187 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+    <head>       
+        <title>He thong quan ly - Truong Dai hoc Can Tho</title>
+	   	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />	
+<script language=javascript>
+
+	var popupWin1;
+	var displayFormClicked = false;
+
+	/*******************************************************************************************************
+	 * Created by Tran Tan Phong
+	 */
+	function displayForm(status, formDisplay, execute, unexecute ) {
+	/* formDisplay : truyen vao ten form can hien thi.
+	 * txtNeedFocus : textfield can setFocus.
+	 */
+		if(status=='on' ) {
+			execute.className="off";
+			unexecute.className="on";
+			formDisplay.className="on";
+			this.displayFormClicked = true;
+		} else {
+			execute.className="on";
+			unexecute.className="off";
+			formDisplay.className="off";
+			this.displayFormClicked= false;
+		}
+	}
+
+	// Ham nay thuc hein setFocus tiep theo cho ham displayForm (o tren).
+	function setFocusTXT(formDisplay, txtNeedFocus ) {
+		if(this.displayFormClicked ) {
+			controlOnForm = "formDisplay."+eval('txtNeedFocus')+".focus()";
+			eval(controlOnForm);
+			this.displayFormClicked = false;
+		}
+	}
+
+	/*******************************************************************************************************/
+
+	function displayForm1(status, formDisplay ) {
+		if(status=='on' ) {
+			formDisplay.className="on";
+		} else {
+			formDisplay.className="off";
+		}
+	}
+	
+	function displayForm2(status, formDisplay, numOfKhoa ) {
+		if(status=='on' ) {
+			formDisplay.className="on";
+		} else {
+			formDisplay.className="off";
+		}
+	}
+
+	function opnwd(url, height, width, isScrollbar ) {
+		popupWin = window.open(url,'new_page','toolbar=no,location=no,menubar=no,scrollbars='+isScrollbar+',width='+width+',height='+height+',top=2,left=2,resizeable=yes,status=no');
+	}
+	
+	function opnwdFull(url ) {
+		//meHeight = screen.height - 180;
+		meHeight = screen.height - 85;
+		meWidth = screen.width - 12;
+		window.open(url, 'new_window', 'toolbar=no, location=no, menubar=no, scrollbars=yes, width='+meWidth+', height='+meHeight+', top=0, left=0, resizable=yes, status=yes ' ,'' );
+	}
+	
+	function opnwd_print(url, height, width, isScrollbar ) {
+		popupWin = window.open(url,'new_page','toolbar=no,location=no,menubar=yes,scrollbars='+isScrollbar+',width='+width+',height='+height+',top=2,left=2,resizeable=yes,status=no');
+	}
+	
+	function opnwd_lichbieu(maMonHoc, url, height, width, isScrollbar ) {
+		document.forms[0].txtMaMonHoc.value = maMonHoc;
+		if (!popupWin1 || popupWin1.closed ) {
+			popupWin1 = window.open(url,'new_page','toolbar=no,location=no,menubar=no,scrollbars='+isScrollbar+',width='+width+',height='+height+',top=2,left=2,resizeable=yes,status=no');
+		} else{
+			popupWin1.focus();
+		}
+	}
+
+
+	/*************************************************************************************
+	 * Loc cac mau tin trong file xml.
+	 * By : Tran Tan Phong
+	 */
+	function FilterDSO(lst, rs, key, ma_1, ma_2, ten_ma_2, mCboNamIndex ) {
+		rs.moveFirst();
+		lst.length = 0;
+		while(!rs.EOF) {
+			ma = rs(ma_1);
+			if (ma == key ) {
+				len = lst.length;
+				lst.options[len] = new Option(rs(ten_ma_2 ) );
+				lst.options[len].value = rs(ma_2 );
+				if (rs(ma_2 )==mCboNamIndex) //Hiep them vao
+					lst.options[len].selected = true;
+			}
+			rs.movenext();
+		}
+
+		/* Neu lan dau tien cboNam chua duoc chon thi mCboNamIndex = NULL
+		 * Dat cho cbo nay gia tri max trong cbo.
+		 * Neu la lan khac dau tien thi khong thuc hien code nay.
+		 */
+
+
+	}
+
+	/*************************************************************************************
+	 * Loc cac mau tin trong file xml.
+	 * By : Tran Tan Phong
+	 */
+	function FilterDSO1(lst, rs, key, nganh, mamonhoc, tenmonhoc, ma_monhoc ) {
+		rs.moveFirst();
+		lst.length = 0;
+		while(!rs.EOF) {
+			manganh = rs(nganh);
+			if (manganh == key ) {
+				len = lst.length;
+				lst.options[len] = new Option(rs(tenmonhoc ) );
+				lst.options[len].value = rs(mamonhoc );
+
+				lst.options[0].selected = true;
+			}
+
+			rs.moveNext();
+		}
+
+	}
+
+	/* Khong cho click chuot phai tren trinh duyet
+	*  Them vao ngay 13/06/2005 - Go bo phan Tu Dien Anh - Viet
+
+	var message="Chao mung ban den voi website Dang Ky Mon Hoc";
+
+	function click(e) {
+	if (document.all) {
+	if (event.button == 2) {
+	alert(message);
+	return false;
+	}
+	}
+	if (document.layers) {
+	if (e.which == 3) {
+	alert(message);
+	return false;
+	}
+	}
+	}
+	if (document.layers) {
+	document.captureEvents(Event.MOUSEDOWN);
+	}
+	document.onmousedown=click;
+	*/
+
+	//Click phai hien menu
+
+	var ie	= document.all
+	var ns6	= document.getElementById&&!document.all
+
+	var isMenu 	= false ;
+
+	var menuSelObj = null ;
+	var overpopupmenu = false;
+
+	function mouseSelect(e)
+	{
+		var obj = ns6 ? e.target.parentNode : event.srcElement.parentElement;
+
+		if( isMenu )
+		{
+			if( overpopupmenu == false )
+			{
+				isMenu = false ;
+				overpopupmenu = false;
+				document.getElementById('menudiv').style.display = "none" ;
+				return true ;
+			}
+			return true ;
+		}
+		return false;
+	}
+
+	function noCTRL(e)
+		{
+			var code = (document.all) ? event.keyCode:e.which;
+			var ctrl = (document.all) ? event.ctrlKey:e.modifiers & Event.CONTROL_MASK; 
+			var msg = "Sorry, this functionality is disabled.";
+			if (document.all)
+			{
+				if (ctrl && code==86) //CTRL+V
+					{
+						alert(msg);
+						window.event.returnValue = false;
+					}
+				else if (ctrl && code==67) //CTRL+C (Copy)
+					{
+						alert(msg);
+						window.event.returnValue = false;
+					}
+			}
+			else
+			{
+				if (ctrl==2) //CTRL key
+				{
+					alert(msg);
+					return false;
+				}
+			}
+		} 
+	// POP UP MENU
+	function	ItemSelMenu(e)
+	{
+		var	obj = ns6 ? e.target.parentNode : event.srcElement.parentElement;
+
+	      menuSelObj = obj ;
+		if (ns6)
+		{
+			document.getElementById('menudiv').style.left = e.clientX+document.body.scrollLeft;
+			document.getElementById('menudiv').style.top = e.clientY+document.body.scrollTop;
+		} else
+		{
+			document.getElementById('menudiv').style.pixelLeft = event.clientX+document.body.scrollLeft;
+			document.getElementById('menudiv').style.pixelTop = event.clientY+document.body.scrollTop;
+		}
+		document.getElementById('menudiv').style.display = "";
+		document.getElementById('item1').style.backgroundColor='#FFFFFF';
+		document.getElementById('item2').style.backgroundColor='#FFFFFF';
+		document.getElementById('item3').style.backgroundColor='#FFFFFF';
+		document.getElementById('item4').style.backgroundColor='#FFFFFF';
+		isMenu = true;
+		return false ;
+	}
+//Phat cap nhat ngay 16042009
+	//document.onmousedown 	= mouseSelect;
+	//document.oncontextmenu 	= ItemSelMenu;
+
+
+
+	// Add by Tdkhuong - 14/06/2005
+	//Hide status bar msg II script- by javascriptkit.com
+	//Visit JavaScript Kit (http://javascriptkit.com) for script
+	//Credit must stay intact for use
+
+	function hidestatus(){
+	window.status=''
+	return true
+	}
+
+	if (document.layers)
+	document.captureEvents(Event.MOUSEOVER | Event.MOUSEOUT)
+
+	document.onmouseover=hidestatus
+	document.onmouseout=hidestatus
+	
+	function titleCase(s) {
+		s = s.toLowerCase()
+		l = s.length;
+		s1 = '';
+		for (i=0;i<l;i++) {
+			if ((i==0)||(s.charAt(i-1)==' '))
+				s1 += s.charAt(i).toUpperCase();
+			else
+				s1 += s.charAt(i);
+		}
+		return s1;
+	}
+</script><script> var mvMaHDDT = 'CQ' ;</script>        <link rel="stylesheet" type="text/css" href="../../templates/css/template.css"/>
+        <link type="text/css" href="../style/ui.theme.css" rel="stylesheet" />
+        <link type="text/css" href="../style/jquery-ui.css" rel="stylesheet" />
+        <script language="javascript" src="../includes/tdkloader.js"></script>
+        <script language="javascript" src="../../includes/jquery-1.5.1.js"></script>
+        <script language="javascript" src="../../includes/jquery.ui.core.js"></script>
+        <script language="javascript" src="../../includes/jquery.ui.datepicker.js"></script>
+        <script language="javascript" src="../../includes/jquery.ui.widget.js"></script>
+        <script language="javascript" src="../../includes/jquery.ui.datepicker-vi.js"></script>
+        <script language="javascript" src="../../includes/jquery.maskedinput-1.3.min.js"></script>
+        <script language="javascript" src="../../includes/HamDungChung.js"></script>
+        <script language="javascript" src="../../includes/jquery.bgiframe.min.js"></script>
+        <script language="javascript" src="../../includes/jquery-ui-1.8.11.custom.js"></Script>
+		<script src="../includes/jquery.min.js" type="text/javascript"> </script>
+		<script src="../includes/jquery.fixedtableheader.min.js" type="text/javascript"> </script>
+		</head>
+    <body onunload ='doLogout()' >
+        <!---------------------START LOADER----------------------->
+        <div id="loader_container">
+            <div id="loader" style="width: 350px; height: 60px; ">
+		<table border="0" width="100%" id="table1" cellspacing="0" cellpadding="0" >
+			<tr >
+				<td align=center rowspan="2"><img src="../images/tdkloader.gif"></td>
+				<td align=left><div align="center">
+					<font style="font-weight: 700; font-size: 8pt">Đang tải dữ liệu...</font></div></td>
+			</tr>
+			<tr>
+				<td valign=top><div id="loader_bg"><div id="progress"> </div></div></td>
+			</tr>
+		</table>
+	</div>
+	</div>
+	  <div id="page-container">
+            <div id="page-header">
+                            </div><!--END #page-header-->
+            <div id="page-body">
+            <!---------------------START PAGE BODY----------------------->
+			        <div class="radius-01" style="width: 960px; margin: 0px auto; background: #fff;">
+                <script language="JavaScript" src="../templates/student/menu/milonic_src.js" type="text/javascript"></script>
+                <script language="JavaScript" type="text/javascript">
+                    if(ns4)_d.write("<scr"+"ipt language=JavaScript src=../templates/student/menu/mmenuns4.js><\/scr"+"ipt>");		
+                    else _d.write("<scr"+"ipt language=JavaScript src=../templates/student/menu/mmenudom.js><\/scr"+"ipt>"); 
+                </script>
+                <script language="JavaScript" src="../templates/student/menu/menu_data.js" type="text/javascript"></script>
+	<h1>&nbsp;</h1>
+	
+
+<script language="javascript" src="../includes/message/message.js"></script>
+<script language="javascript" src="../includes/logout.js"></script>
+<script language="javascript" src="../includes/tdkloader.js"></script>
+<script language="javascript" src="../includes/jquery-1.4.4.min.js"></script>
+
+				<script>dk_tthl = 2;</script><script language="JavaScript">
+	function lietke(pID)
+	{
+		frmSelectClass.action="index.php?action=dmuc_mhoc_hky";		
+		frmSelectClass.curPage.value=pID;
+		frmSelectClass.submit();
+	}	
+	function tim()
+	{		
+		frmSelectClass.action="index.php?action=dmuc_mhoc_hky";				
+		frmSelectClass.submit();	
+	}	
+</script>
+<script language="javascript">
+function isInt(sText)
+	{
+	   var ValidChars = ".-";
+	   var IsNumber=true;
+	   var Char;
+	   if(isNaN(sText))	   
+	   	IsNumber = false;		
+	   else   
+		for (i = 0; i < sText.length && IsNumber == true; i++) 
+		  { 
+			 Char = sText.charAt(i); 
+			 if (ValidChars.indexOf(Char) != -1) 
+			 {
+				 IsNumber = false;				 
+			 }
+		  }		
+		  return IsNumber;	   
+	}
+</script>
+
+<table align="center" width="96%" height="100%" border="0" cellpadding="0" cellspacing="0">
+<tr><td height="80%" align="center" valign="top">	
+	<form name="frmSelectClass" method="post" onSubmit="return lietke(' ');" >
+		  <table width="100%"height="100%"border="0"align="center"cellpadding="0"cellspacing="0"id="Contenttb">		 
+		<tr >			
+			<td height="25">			
+				<table width="100%"border="0"cellpadding="0"cellspacing="0">
+					<tr >
+						<td class="main_1_left">					</td>
+						<td align=center class="main_1">Danh sách học phần </td>
+						<td class="main_1_right">				</td>
+					</tr>					
+			</table>		
+			</td>
+		</tr>
+		<tr valign="top">
+		<td >			
+		<table width="100%" class="border_1" borderColor="#111111" cellSpacing=0 cellPadding=0 align="center" border=0 style="border-bottom:none">
+			<tr>
+                           
+      <td colspan="8" align="center" class="main_3" >Học kỳ: 	<select name="cmbHocKy" id="cmbHocKy"  class="cmb">
+		<option  value="1" >1</option>
+		<option  value="2" >2</option>
+		<option selected value="3" >Hè</option>
+	</select>  &nbsp; 
+ &nbsp; Năm học: 	<select name="cmbNamHoc" id="cmbNamHoc" class="cmb">
+                <option  value="2021" >
+        2020 - 2021        </option>
+                <option  value="2022" >
+        2021 - 2022        </option>
+                <option  selected  value="2023" >
+        2022 - 2023        </option>
+                </select>
+</td>          
+    </tr>	
+            <tr> 
+             <td colspan="8"align="center"class="main_3" > <br>
+              Mã  học phần &nbsp; 
+              <input name="txtMaMH" type="text" class="txtbox" id="txtMaMH" style="width:120px" value="ML019" size="6" maxlength="6">
+              <input name="curPage" type="text" id="curPage" value="1" style="display:none" >
+			   <input name="flag" type="text" id="flag" value="1" style="display:none" >
+				<input type="submit" name="Button" value="Tìm"  class="button_1" />
+					<br> <br> </td>
+                </tr>
+				<tr   class="main_3">
+					<td colspan="" >
+						<br/> 
+						&nbsp;&nbsp;Mã học phần : ML019						<br/><br/>
+					</td>
+					<td colspan="" >
+						<br/> 
+						Tên Học phần : Lịch sử Đảng Cộng sản Việt Nam						<br/><br/>
+					</td>
+					<td colspan="" >
+						<br/> 
+						Tín chỉ : 2 TC
+						<br/><br/>
+					</td>
+					
+				</tr>
+			  </table>				
+            <table width="100%" class="border_1" borderColor="#111111" cellSpacing=0 cellPadding=0 align="center" border=0>
+                <tr> 
+                  <td width="3%"height="28"align="center"class="main_3">Stt</td>
+                  
+                  <td width="4%"align="center"class="main_3">Ký hiệu </td>
+				  
+				  <td width="5%"align="center"class="main_3">Thứ </td>
+				  <td width="6%"align="center"class="main_3">Tiết BĐ </td>
+				  <td width="6%"align="center"class="main_3">Số tiết </td>
+				  <td width="7%"align="center"class="main_3">Phòng </td>
+				  				  <td width="5%"align="center"class="main_3">Sỉ số </td>
+				  	
+						<td width="12%"align="center"class="main_3">Sỉ số còn lại </td>
+									  <td width="16%"align="center"class="main_3">Tuần học </td>
+				  <td  align="center"class="main_3">Lớp HP </td>
+				  
+				 				 
+                  
+			    </tr>                
+				 					<tr onMouseOver="this.style.backgroundColor='#ff9900'; this.style.cursor='hand';" 
+  onmouseout="this.style.backgroundColor='#ffffff';"> 
+					  <td align="center"class="main_3">1</td>
+					  <td align="center"class="level_1_1">&nbsp;01</td>
+					  
+					  					  <td align="right"class="level_1_1">2&nbsp;</td>
+					  <td align="right"class="level_1_1">6&nbsp;</td>
+					  <td align="right"class="level_1_1">3&nbsp;</td>
+					  <td align="left"class="level_1_1">106/C1&nbsp;</td>
+					  					  
+					  					  
+					  <td align="right"class="level_1_1">190&nbsp;</td>
+					  <td align="right"class="level_1_1">0&nbsp;</td>
+					  
+					  <td align="center" class="level_1_1" style="font-family:'Courier New', monospace, Courier;font-size:12px"  >12345****************&nbsp;</td>
+					  <td align="right"class="level_1_1">ML019001&nbsp;</td>
+					  
+					</tr>
+					
+									<tr onMouseOver="this.style.backgroundColor='#ff9900'; this.style.cursor='hand';" 
+  onmouseout="this.style.backgroundColor='#ffffff';"> 
+					  <td align="center"class="main_3">2</td>
+					  <td align="center"class="">&nbsp;01</td>
+					  
+					  					  <td align="right"class="">4&nbsp;</td>
+					  <td align="right"class="">6&nbsp;</td>
+					  <td align="right"class="">3&nbsp;</td>
+					  <td align="left"class="">106/C1&nbsp;</td>
+					  					  
+					  					  
+					  <td align="right"class="">190&nbsp;</td>
+					  <td align="right"class="">0&nbsp;</td>
+					  
+					  <td align="center" class="" style="font-family:'Courier New', monospace, Courier;font-size:12px"  >12345****************&nbsp;</td>
+					  <td align="right"class="">ML019001&nbsp;</td>
+					  
+					</tr>
+					
+									<tr onMouseOver="this.style.backgroundColor='#ff9900'; this.style.cursor='hand';" 
+  onmouseout="this.style.backgroundColor='#ffffff';"> 
+					  <td align="center"class="main_3">3</td>
+					  <td align="center"class="level_1_1">&nbsp;02</td>
+					  
+					  					  <td align="right"class="level_1_1">3&nbsp;</td>
+					  <td align="right"class="level_1_1">6&nbsp;</td>
+					  <td align="right"class="level_1_1">3&nbsp;</td>
+					  <td align="left"class="level_1_1">203/KH&nbsp;</td>
+					  					  
+					  					  
+					  <td align="right"class="level_1_1">160&nbsp;</td>
+					  <td align="right"class="level_1_1">0&nbsp;</td>
+					  
+					  <td align="center" class="level_1_1" style="font-family:'Courier New', monospace, Courier;font-size:12px"  >12345****************&nbsp;</td>
+					  <td align="right"class="level_1_1">ML019002&nbsp;</td>
+					  
+					</tr>
+					
+									<tr onMouseOver="this.style.backgroundColor='#ff9900'; this.style.cursor='hand';" 
+  onmouseout="this.style.backgroundColor='#ffffff';"> 
+					  <td align="center"class="main_3">4</td>
+					  <td align="center"class="">&nbsp;02</td>
+					  
+					  					  <td align="right"class="">5&nbsp;</td>
+					  <td align="right"class="">6&nbsp;</td>
+					  <td align="right"class="">3&nbsp;</td>
+					  <td align="left"class="">201/KH&nbsp;</td>
+					  					  
+					  					  
+					  <td align="right"class="">160&nbsp;</td>
+					  <td align="right"class="">0&nbsp;</td>
+					  
+					  <td align="center" class="" style="font-family:'Courier New', monospace, Courier;font-size:12px"  >12345****************&nbsp;</td>
+					  <td align="right"class="">ML019002&nbsp;</td>
+					  
+					</tr>
+					
+									<tr onMouseOver="this.style.backgroundColor='#ff9900'; this.style.cursor='hand';" 
+  onmouseout="this.style.backgroundColor='#ffffff';"> 
+					  <td align="center"class="main_3">5</td>
+					  <td align="center"class="level_1_1">&nbsp;03</td>
+					  
+					  					  <td align="right"class="level_1_1">4&nbsp;</td>
+					  <td align="right"class="level_1_1">1&nbsp;</td>
+					  <td align="right"class="level_1_1">3&nbsp;</td>
+					  <td align="left"class="level_1_1">203/KH&nbsp;</td>
+					  					  
+					  					  
+					  <td align="right"class="level_1_1">161&nbsp;</td>
+					  <td align="right"class="level_1_1">0&nbsp;</td>
+					  
+					  <td align="center" class="level_1_1" style="font-family:'Courier New', monospace, Courier;font-size:12px"  >12345****************&nbsp;</td>
+					  <td align="right"class="level_1_1">ML019003&nbsp;</td>
+					  
+					</tr>
+					
+									<tr onMouseOver="this.style.backgroundColor='#ff9900'; this.style.cursor='hand';" 
+  onmouseout="this.style.backgroundColor='#ffffff';"> 
+					  <td align="center"class="main_3">6</td>
+					  <td align="center"class="">&nbsp;03</td>
+					  
+					  					  <td align="right"class="">6&nbsp;</td>
+					  <td align="right"class="">6&nbsp;</td>
+					  <td align="right"class="">3&nbsp;</td>
+					  <td align="left"class="">202/KH&nbsp;</td>
+					  					  
+					  					  
+					  <td align="right"class="">161&nbsp;</td>
+					  <td align="right"class="">0&nbsp;</td>
+					  
+					  <td align="center" class="" style="font-family:'Courier New', monospace, Courier;font-size:12px"  >12345****************&nbsp;</td>
+					  <td align="right"class="">ML019003&nbsp;</td>
+					  
+					</tr>
+					
+									<tr onMouseOver="this.style.backgroundColor='#ff9900'; this.style.cursor='hand';" 
+  onmouseout="this.style.backgroundColor='#ffffff';"> 
+					  <td align="center"class="main_3">7</td>
+					  <td align="center"class="level_1_1">&nbsp;04</td>
+					  
+					  					  <td align="right"class="level_1_1">2&nbsp;</td>
+					  <td align="right"class="level_1_1">6&nbsp;</td>
+					  <td align="right"class="level_1_1">3&nbsp;</td>
+					  <td align="left"class="level_1_1">107/C1&nbsp;</td>
+					  					  
+					  					  
+					  <td align="right"class="level_1_1">175&nbsp;</td>
+					  <td align="right"class="level_1_1">0&nbsp;</td>
+					  
+					  <td align="center" class="level_1_1" style="font-family:'Courier New', monospace, Courier;font-size:12px"  >12345****************&nbsp;</td>
+					  <td align="right"class="level_1_1">ML019004&nbsp;</td>
+					  
+					</tr>
+					
+									<tr onMouseOver="this.style.backgroundColor='#ff9900'; this.style.cursor='hand';" 
+  onmouseout="this.style.backgroundColor='#ffffff';"> 
+					  <td align="center"class="main_3">8</td>
+					  <td align="center"class="">&nbsp;04</td>
+					  
+					  					  <td align="right"class="">5&nbsp;</td>
+					  <td align="right"class="">1&nbsp;</td>
+					  <td align="right"class="">3&nbsp;</td>
+					  <td align="left"class="">202/KH&nbsp;</td>
+					  					  
+					  					  
+					  <td align="right"class="">175&nbsp;</td>
+					  <td align="right"class="">0&nbsp;</td>
+					  
+					  <td align="center" class="" style="font-family:'Courier New', monospace, Courier;font-size:12px"  >12345****************&nbsp;</td>
+					  <td align="right"class="">ML019004&nbsp;</td>
+					  
+					</tr>
+					
+									<tr onMouseOver="this.style.backgroundColor='#ff9900'; this.style.cursor='hand';" 
+  onmouseout="this.style.backgroundColor='#ffffff';"> 
+					  <td align="center"class="main_3">9</td>
+					  <td align="center"class="level_1_1">&nbsp;05</td>
+					  
+					  					  <td align="right"class="level_1_1">2&nbsp;</td>
+					  <td align="right"class="level_1_1">1&nbsp;</td>
+					  <td align="right"class="level_1_1">3&nbsp;</td>
+					  <td align="left"class="level_1_1">202/KH&nbsp;</td>
+					  					  
+					  					  
+					  <td align="right"class="level_1_1">161&nbsp;</td>
+					  <td align="right"class="level_1_1">0&nbsp;</td>
+					  
+					  <td align="center" class="level_1_1" style="font-family:'Courier New', monospace, Courier;font-size:12px"  >12345****************&nbsp;</td>
+					  <td align="right"class="level_1_1">ML019005&nbsp;</td>
+					  
+					</tr>
+					
+									<tr onMouseOver="this.style.backgroundColor='#ff9900'; this.style.cursor='hand';" 
+  onmouseout="this.style.backgroundColor='#ffffff';"> 
+					  <td align="center"class="main_3">10</td>
+					  <td align="center"class="">&nbsp;05</td>
+					  
+					  					  <td align="right"class="">6&nbsp;</td>
+					  <td align="right"class="">1&nbsp;</td>
+					  <td align="right"class="">3&nbsp;</td>
+					  <td align="left"class="">202/KH&nbsp;</td>
+					  					  
+					  					  
+					  <td align="right"class="">161&nbsp;</td>
+					  <td align="right"class="">0&nbsp;</td>
+					  
+					  <td align="center" class="" style="font-family:'Courier New', monospace, Courier;font-size:12px"  >12345****************&nbsp;</td>
+					  <td align="right"class="">ML019005&nbsp;</td>
+					  
+					</tr>
+					
+									<tr onMouseOver="this.style.backgroundColor='#ff9900'; this.style.cursor='hand';" 
+  onmouseout="this.style.backgroundColor='#ffffff';"> 
+					  <td align="center"class="main_3">11</td>
+					  <td align="center"class="level_1_1">&nbsp;06</td>
+					  
+					  					  <td align="right"class="level_1_1">5&nbsp;</td>
+					  <td align="right"class="level_1_1">6&nbsp;</td>
+					  <td align="right"class="level_1_1">3&nbsp;</td>
+					  <td align="left"class="level_1_1">202/KH&nbsp;</td>
+					  					  
+					  					  
+					  <td align="right"class="level_1_1">161&nbsp;</td>
+					  <td align="right"class="level_1_1">0&nbsp;</td>
+					  
+					  <td align="center" class="level_1_1" style="font-family:'Courier New', monospace, Courier;font-size:12px"  >12345****************&nbsp;</td>
+					  <td align="right"class="level_1_1">ML019006&nbsp;</td>
+					  
+					</tr>
+					
+									<tr onMouseOver="this.style.backgroundColor='#ff9900'; this.style.cursor='hand';" 
+  onmouseout="this.style.backgroundColor='#ffffff';"> 
+					  <td align="center"class="main_3">12</td>
+					  <td align="center"class="">&nbsp;06</td>
+					  
+					  					  <td align="right"class="">7&nbsp;</td>
+					  <td align="right"class="">1&nbsp;</td>
+					  <td align="right"class="">3&nbsp;</td>
+					  <td align="left"class="">203/KH&nbsp;</td>
+					  					  
+					  					  
+					  <td align="right"class="">161&nbsp;</td>
+					  <td align="right"class="">0&nbsp;</td>
+					  
+					  <td align="center" class="" style="font-family:'Courier New', monospace, Courier;font-size:12px"  >12345****************&nbsp;</td>
+					  <td align="right"class="">ML019006&nbsp;</td>
+					  
+					</tr>
+					
+									<tr onMouseOver="this.style.backgroundColor='#ff9900'; this.style.cursor='hand';" 
+  onmouseout="this.style.backgroundColor='#ffffff';"> 
+					  <td align="center"class="main_3">13</td>
+					  <td align="center"class="level_1_1">&nbsp;07</td>
+					  
+					  					  <td align="right"class="level_1_1">3&nbsp;</td>
+					  <td align="right"class="level_1_1">1&nbsp;</td>
+					  <td align="right"class="level_1_1">3&nbsp;</td>
+					  <td align="left"class="level_1_1">203/KH&nbsp;</td>
+					  					  
+					  					  
+					  <td align="right"class="level_1_1">161&nbsp;</td>
+					  <td align="right"class="level_1_1">3&nbsp;</td>
+					  
+					  <td align="center" class="level_1_1" style="font-family:'Courier New', monospace, Courier;font-size:12px"  >12345****************&nbsp;</td>
+					  <td align="right"class="level_1_1">ML019007&nbsp;</td>
+					  
+					</tr>
+					
+									<tr onMouseOver="this.style.backgroundColor='#ff9900'; this.style.cursor='hand';" 
+  onmouseout="this.style.backgroundColor='#ffffff';"> 
+					  <td align="center"class="main_3">14</td>
+					  <td align="center"class="">&nbsp;07</td>
+					  
+					  					  <td align="right"class="">7&nbsp;</td>
+					  <td align="right"class="">6&nbsp;</td>
+					  <td align="right"class="">3&nbsp;</td>
+					  <td align="left"class="">202/KH&nbsp;</td>
+					  					  
+					  					  
+					  <td align="right"class="">161&nbsp;</td>
+					  <td align="right"class="">3&nbsp;</td>
+					  
+					  <td align="center" class="" style="font-family:'Courier New', monospace, Courier;font-size:12px"  >12345****************&nbsp;</td>
+					  <td align="right"class="">ML019007&nbsp;</td>
+					  
+					</tr>
+					
+									<tr onMouseOver="this.style.backgroundColor='#ff9900'; this.style.cursor='hand';" 
+  onmouseout="this.style.backgroundColor='#ffffff';"> 
+					  <td align="center"class="main_3">15</td>
+					  <td align="center"class="level_1_1">&nbsp;08</td>
+					  
+					  					  <td align="right"class="level_1_1">4&nbsp;</td>
+					  <td align="right"class="level_1_1">6&nbsp;</td>
+					  <td align="right"class="level_1_1">3&nbsp;</td>
+					  <td align="left"class="level_1_1">101/KH&nbsp;</td>
+					  					  
+					  					  
+					  <td align="right"class="level_1_1">161&nbsp;</td>
+					  <td align="right"class="level_1_1">0&nbsp;</td>
+					  
+					  <td align="center" class="level_1_1" style="font-family:'Courier New', monospace, Courier;font-size:12px"  >12345****************&nbsp;</td>
+					  <td align="right"class="level_1_1">ML019008&nbsp;</td>
+					  
+					</tr>
+					
+									<tr onMouseOver="this.style.backgroundColor='#ff9900'; this.style.cursor='hand';" 
+  onmouseout="this.style.backgroundColor='#ffffff';"> 
+					  <td align="center"class="main_3">16</td>
+					  <td align="center"class="">&nbsp;08</td>
+					  
+					  					  <td align="right"class="">6&nbsp;</td>
+					  <td align="right"class="">6&nbsp;</td>
+					  <td align="right"class="">3&nbsp;</td>
+					  <td align="left"class="">203/KH&nbsp;</td>
+					  					  
+					  					  
+					  <td align="right"class="">161&nbsp;</td>
+					  <td align="right"class="">0&nbsp;</td>
+					  
+					  <td align="center" class="" style="font-family:'Courier New', monospace, Courier;font-size:12px"  >12345****************&nbsp;</td>
+					  <td align="right"class="">ML019008&nbsp;</td>
+					  
+					</tr>
+					
+									<tr onMouseOver="this.style.backgroundColor='#ff9900'; this.style.cursor='hand';" 
+  onmouseout="this.style.backgroundColor='#ffffff';"> 
+					  <td align="center"class="main_3">17</td>
+					  <td align="center"class="level_1_1">&nbsp;09</td>
+					  
+					  					  <td align="right"class="level_1_1">2&nbsp;</td>
+					  <td align="right"class="level_1_1">1&nbsp;</td>
+					  <td align="right"class="level_1_1">3&nbsp;</td>
+					  <td align="left"class="level_1_1">203/KH&nbsp;</td>
+					  					  
+					  					  
+					  <td align="right"class="level_1_1">161&nbsp;</td>
+					  <td align="right"class="level_1_1">1&nbsp;</td>
+					  
+					  <td align="center" class="level_1_1" style="font-family:'Courier New', monospace, Courier;font-size:12px"  >12345****************&nbsp;</td>
+					  <td align="right"class="level_1_1">ML019009&nbsp;</td>
+					  
+					</tr>
+					
+									<tr onMouseOver="this.style.backgroundColor='#ff9900'; this.style.cursor='hand';" 
+  onmouseout="this.style.backgroundColor='#ffffff';"> 
+					  <td align="center"class="main_3">18</td>
+					  <td align="center"class="">&nbsp;09</td>
+					  
+					  					  <td align="right"class="">4&nbsp;</td>
+					  <td align="right"class="">1&nbsp;</td>
+					  <td align="right"class="">3&nbsp;</td>
+					  <td align="left"class="">202/KH&nbsp;</td>
+					  					  
+					  					  
+					  <td align="right"class="">161&nbsp;</td>
+					  <td align="right"class="">1&nbsp;</td>
+					  
+					  <td align="center" class="" style="font-family:'Courier New', monospace, Courier;font-size:12px"  >12345****************&nbsp;</td>
+					  <td align="right"class="">ML019009&nbsp;</td>
+					  
+					</tr>
+					
+									<tr onMouseOver="this.style.backgroundColor='#ff9900'; this.style.cursor='hand';" 
+  onmouseout="this.style.backgroundColor='#ffffff';"> 
+					  <td align="center"class="main_3">19</td>
+					  <td align="center"class="level_1_1">&nbsp;10</td>
+					  
+					  					  <td align="right"class="level_1_1">5&nbsp;</td>
+					  <td align="right"class="level_1_1">1&nbsp;</td>
+					  <td align="right"class="level_1_1">3&nbsp;</td>
+					  <td align="left"class="level_1_1">203/KH&nbsp;</td>
+					  					  
+					  					  
+					  <td align="right"class="level_1_1">161&nbsp;</td>
+					  <td align="right"class="level_1_1">0&nbsp;</td>
+					  
+					  <td align="center" class="level_1_1" style="font-family:'Courier New', monospace, Courier;font-size:12px"  >12345****************&nbsp;</td>
+					  <td align="right"class="level_1_1">ML019010&nbsp;</td>
+					  
+					</tr>
+					
+									<tr onMouseOver="this.style.backgroundColor='#ff9900'; this.style.cursor='hand';" 
+  onmouseout="this.style.backgroundColor='#ffffff';"> 
+					  <td align="center"class="main_3">20</td>
+					  <td align="center"class="">&nbsp;10</td>
+					  
+					  					  <td align="right"class="">6&nbsp;</td>
+					  <td align="right"class="">1&nbsp;</td>
+					  <td align="right"class="">3&nbsp;</td>
+					  <td align="left"class="">203/KH&nbsp;</td>
+					  					  
+					  					  
+					  <td align="right"class="">161&nbsp;</td>
+					  <td align="right"class="">0&nbsp;</td>
+					  
+					  <td align="center" class="" style="font-family:'Courier New', monospace, Courier;font-size:12px"  >12345****************&nbsp;</td>
+					  <td align="right"class="">ML019010&nbsp;</td>
+					  
+					</tr>
+					
+									<tr onMouseOver="this.style.backgroundColor='#ff9900'; this.style.cursor='hand';" 
+  onmouseout="this.style.backgroundColor='#ffffff';"> 
+					  <td align="center"class="main_3">21</td>
+					  <td align="center"class="level_1_1">&nbsp;11</td>
+					  
+					  					  <td align="right"class="level_1_1">2&nbsp;</td>
+					  <td align="right"class="level_1_1">4&nbsp;</td>
+					  <td align="right"class="level_1_1">2&nbsp;</td>
+					  <td align="left"class="level_1_1">101/KH&nbsp;</td>
+					  					  
+					  					  
+					  <td align="right"class="level_1_1">161&nbsp;</td>
+					  <td align="right"class="level_1_1">0&nbsp;</td>
+					  
+					  <td align="center" class="level_1_1" style="font-family:'Courier New', monospace, Courier;font-size:12px"  >12345****************&nbsp;</td>
+					  <td align="right"class="level_1_1">ML019011&nbsp;</td>
+					  
+					</tr>
+					
+									<tr onMouseOver="this.style.backgroundColor='#ff9900'; this.style.cursor='hand';" 
+  onmouseout="this.style.backgroundColor='#ffffff';"> 
+					  <td align="center"class="main_3">22</td>
+					  <td align="center"class="">&nbsp;11</td>
+					  
+					  					  <td align="right"class="">4&nbsp;</td>
+					  <td align="right"class="">4&nbsp;</td>
+					  <td align="right"class="">2&nbsp;</td>
+					  <td align="left"class="">101/KH&nbsp;</td>
+					  					  
+					  					  
+					  <td align="right"class="">161&nbsp;</td>
+					  <td align="right"class="">0&nbsp;</td>
+					  
+					  <td align="center" class="" style="font-family:'Courier New', monospace, Courier;font-size:12px"  >12345****************&nbsp;</td>
+					  <td align="right"class="">ML019011&nbsp;</td>
+					  
+					</tr>
+					
+									<tr onMouseOver="this.style.backgroundColor='#ff9900'; this.style.cursor='hand';" 
+  onmouseout="this.style.backgroundColor='#ffffff';"> 
+					  <td align="center"class="main_3">23</td>
+					  <td align="center"class="">&nbsp;11</td>
+					  
+					  					  <td align="right"class="">6&nbsp;</td>
+					  <td align="right"class="">4&nbsp;</td>
+					  <td align="right"class="">2&nbsp;</td>
+					  <td align="left"class="">103/KH&nbsp;</td>
+					  					  
+					  					  
+					  <td align="right"class="">161&nbsp;</td>
+					  <td align="right"class="">0&nbsp;</td>
+					  
+					  <td align="center" class="" style="font-family:'Courier New', monospace, Courier;font-size:12px"  >12345****************&nbsp;</td>
+					  <td align="right"class="">ML019011&nbsp;</td>
+					  
+					</tr>
+					
+									<tr onMouseOver="this.style.backgroundColor='#ff9900'; this.style.cursor='hand';" 
+  onmouseout="this.style.backgroundColor='#ffffff';"> 
+					  <td align="center"class="main_3">24</td>
+					  <td align="center"class="level_1_1">&nbsp;12</td>
+					  
+					  					  <td align="right"class="level_1_1">3&nbsp;</td>
+					  <td align="right"class="level_1_1">4&nbsp;</td>
+					  <td align="right"class="level_1_1">2&nbsp;</td>
+					  <td align="left"class="level_1_1">103/KH&nbsp;</td>
+					  					  
+					  					  
+					  <td align="right"class="level_1_1">161&nbsp;</td>
+					  <td align="right"class="level_1_1">5&nbsp;</td>
+					  
+					  <td align="center" class="level_1_1" style="font-family:'Courier New', monospace, Courier;font-size:12px"  >12345****************&nbsp;</td>
+					  <td align="right"class="level_1_1">ML019012&nbsp;</td>
+					  
+					</tr>
+					
+									<tr onMouseOver="this.style.backgroundColor='#ff9900'; this.style.cursor='hand';" 
+  onmouseout="this.style.backgroundColor='#ffffff';"> 
+					  <td align="center"class="main_3">25</td>
+					  <td align="center"class="">&nbsp;12</td>
+					  
+					  					  <td align="right"class="">5&nbsp;</td>
+					  <td align="right"class="">4&nbsp;</td>
+					  <td align="right"class="">2&nbsp;</td>
+					  <td align="left"class="">103/KH&nbsp;</td>
+					  					  
+					  					  
+					  <td align="right"class="">161&nbsp;</td>
+					  <td align="right"class="">5&nbsp;</td>
+					  
+					  <td align="center" class="" style="font-family:'Courier New', monospace, Courier;font-size:12px"  >12345****************&nbsp;</td>
+					  <td align="right"class="">ML019012&nbsp;</td>
+					  
+					</tr>
+					
+									<tr onMouseOver="this.style.backgroundColor='#ff9900'; this.style.cursor='hand';" 
+  onmouseout="this.style.backgroundColor='#ffffff';"> 
+					  <td align="center"class="main_3">26</td>
+					  <td align="center"class="">&nbsp;12</td>
+					  
+					  					  <td align="right"class="">7&nbsp;</td>
+					  <td align="right"class="">4&nbsp;</td>
+					  <td align="right"class="">2&nbsp;</td>
+					  <td align="left"class="">103/KH&nbsp;</td>
+					  					  
+					  					  
+					  <td align="right"class="">161&nbsp;</td>
+					  <td align="right"class="">5&nbsp;</td>
+					  
+					  <td align="center" class="" style="font-family:'Courier New', monospace, Courier;font-size:12px"  >12345****************&nbsp;</td>
+					  <td align="right"class="">ML019012&nbsp;</td>
+					  
+					</tr>
+					
+									<tr onMouseOver="this.style.backgroundColor='#ff9900'; this.style.cursor='hand';" 
+  onmouseout="this.style.backgroundColor='#ffffff';"> 
+					  <td align="center"class="main_3">27</td>
+					  <td align="center"class="level_1_1">&nbsp;13</td>
+					  
+					  					  <td align="right"class="level_1_1">2&nbsp;</td>
+					  <td align="right"class="level_1_1">1&nbsp;</td>
+					  <td align="right"class="level_1_1">3&nbsp;</td>
+					  <td align="left"class="level_1_1">107/C1&nbsp;</td>
+					  					  
+					  					  
+					  <td align="right"class="level_1_1">190&nbsp;</td>
+					  <td align="right"class="level_1_1">0&nbsp;</td>
+					  
+					  <td align="center" class="level_1_1" style="font-family:'Courier New', monospace, Courier;font-size:12px"  >12345****************&nbsp;</td>
+					  <td align="right"class="level_1_1">ML019013&nbsp;</td>
+					  
+					</tr>
+					
+									<tr onMouseOver="this.style.backgroundColor='#ff9900'; this.style.cursor='hand';" 
+  onmouseout="this.style.backgroundColor='#ffffff';"> 
+					  <td align="center"class="main_3">28</td>
+					  <td align="center"class="">&nbsp;13</td>
+					  
+					  					  <td align="right"class="">6&nbsp;</td>
+					  <td align="right"class="">6&nbsp;</td>
+					  <td align="right"class="">3&nbsp;</td>
+					  <td align="left"class="">106/C1&nbsp;</td>
+					  					  
+					  					  
+					  <td align="right"class="">190&nbsp;</td>
+					  <td align="right"class="">0&nbsp;</td>
+					  
+					  <td align="center" class="" style="font-family:'Courier New', monospace, Courier;font-size:12px"  >12345****************&nbsp;</td>
+					  <td align="right"class="">ML019013&nbsp;</td>
+					  
+					</tr>
+					
+									<tr onMouseOver="this.style.backgroundColor='#ff9900'; this.style.cursor='hand';" 
+  onmouseout="this.style.backgroundColor='#ffffff';"> 
+					  <td align="center"class="main_3">29</td>
+					  <td align="center"class="level_1_1">&nbsp;14</td>
+					  
+					  					  <td align="right"class="level_1_1">5&nbsp;</td>
+					  <td align="right"class="level_1_1">6&nbsp;</td>
+					  <td align="right"class="level_1_1">3&nbsp;</td>
+					  <td align="left"class="level_1_1">106/C1&nbsp;</td>
+					  					  
+					  					  
+					  <td align="right"class="level_1_1">175&nbsp;</td>
+					  <td align="right"class="level_1_1">0&nbsp;</td>
+					  
+					  <td align="center" class="level_1_1" style="font-family:'Courier New', monospace, Courier;font-size:12px"  >12345****************&nbsp;</td>
+					  <td align="right"class="level_1_1">ML019014&nbsp;</td>
+					  
+					</tr>
+					
+									<tr onMouseOver="this.style.backgroundColor='#ff9900'; this.style.cursor='hand';" 
+  onmouseout="this.style.backgroundColor='#ffffff';"> 
+					  <td align="center"class="main_3">30</td>
+					  <td align="center"class="">&nbsp;14</td>
+					  
+					  					  <td align="right"class="">7&nbsp;</td>
+					  <td align="right"class="">6&nbsp;</td>
+					  <td align="right"class="">3&nbsp;</td>
+					  <td align="left"class="">203/KH&nbsp;</td>
+					  					  
+					  					  
+					  <td align="right"class="">175&nbsp;</td>
+					  <td align="right"class="">0&nbsp;</td>
+					  
+					  <td align="center" class="" style="font-family:'Courier New', monospace, Courier;font-size:12px"  >12345****************&nbsp;</td>
+					  <td align="right"class="">ML019014&nbsp;</td>
+					  
+					</tr>
+					
+									<tr onMouseOver="this.style.backgroundColor='#ff9900'; this.style.cursor='hand';" 
+  onmouseout="this.style.backgroundColor='#ffffff';"> 
+					  <td align="center"class="main_3">31</td>
+					  <td align="center"class="level_1_1">&nbsp;15</td>
+					  
+					  					  <td align="right"class="level_1_1">6&nbsp;</td>
+					  <td align="right"class="level_1_1">1&nbsp;</td>
+					  <td align="right"class="level_1_1">3&nbsp;</td>
+					  <td align="left"class="level_1_1">106/C1&nbsp;</td>
+					  					  
+					  					  
+					  <td align="right"class="level_1_1">160&nbsp;</td>
+					  <td align="right"class="level_1_1">0&nbsp;</td>
+					  
+					  <td align="center" class="level_1_1" style="font-family:'Courier New', monospace, Courier;font-size:12px"  >12345****************&nbsp;</td>
+					  <td align="right"class="level_1_1">ML019015&nbsp;</td>
+					  
+					</tr>
+					
+									<tr onMouseOver="this.style.backgroundColor='#ff9900'; this.style.cursor='hand';" 
+  onmouseout="this.style.backgroundColor='#ffffff';"> 
+					  <td align="center"class="main_3">32</td>
+					  <td align="center"class="">&nbsp;15</td>
+					  
+					  					  <td align="right"class="">7&nbsp;</td>
+					  <td align="right"class="">1&nbsp;</td>
+					  <td align="right"class="">3&nbsp;</td>
+					  <td align="left"class="">101/KH&nbsp;</td>
+					  					  
+					  					  
+					  <td align="right"class="">160&nbsp;</td>
+					  <td align="right"class="">0&nbsp;</td>
+					  
+					  <td align="center" class="" style="font-family:'Courier New', monospace, Courier;font-size:12px"  >12345****************&nbsp;</td>
+					  <td align="right"class="">ML019015&nbsp;</td>
+					  
+					</tr>
+					
+									<tr onMouseOver="this.style.backgroundColor='#ff9900'; this.style.cursor='hand';" 
+  onmouseout="this.style.backgroundColor='#ffffff';"> 
+					  <td align="center"class="main_3">33</td>
+					  <td align="center"class="level_1_1">&nbsp;16</td>
+					  
+					  					  <td align="right"class="level_1_1">2&nbsp;</td>
+					  <td align="right"class="level_1_1">4&nbsp;</td>
+					  <td align="right"class="level_1_1">2&nbsp;</td>
+					  <td align="left"class="level_1_1">103/KH&nbsp;</td>
+					  					  
+					  					  
+					  <td align="right"class="level_1_1">160&nbsp;</td>
+					  <td align="right"class="level_1_1">0&nbsp;</td>
+					  
+					  <td align="center" class="level_1_1" style="font-family:'Courier New', monospace, Courier;font-size:12px"  >12345****************&nbsp;</td>
+					  <td align="right"class="level_1_1">ML019016&nbsp;</td>
+					  
+					</tr>
+					
+									<tr onMouseOver="this.style.backgroundColor='#ff9900'; this.style.cursor='hand';" 
+  onmouseout="this.style.backgroundColor='#ffffff';"> 
+					  <td align="center"class="main_3">34</td>
+					  <td align="center"class="">&nbsp;16</td>
+					  
+					  					  <td align="right"class="">4&nbsp;</td>
+					  <td align="right"class="">4&nbsp;</td>
+					  <td align="right"class="">2&nbsp;</td>
+					  <td align="left"class="">201/KH&nbsp;</td>
+					  					  
+					  					  
+					  <td align="right"class="">160&nbsp;</td>
+					  <td align="right"class="">0&nbsp;</td>
+					  
+					  <td align="center" class="" style="font-family:'Courier New', monospace, Courier;font-size:12px"  >12345****************&nbsp;</td>
+					  <td align="right"class="">ML019016&nbsp;</td>
+					  
+					</tr>
+					
+									<tr onMouseOver="this.style.backgroundColor='#ff9900'; this.style.cursor='hand';" 
+  onmouseout="this.style.backgroundColor='#ffffff';"> 
+					  <td align="center"class="main_3">35</td>
+					  <td align="center"class="">&nbsp;16</td>
+					  
+					  					  <td align="right"class="">6&nbsp;</td>
+					  <td align="right"class="">4&nbsp;</td>
+					  <td align="right"class="">2&nbsp;</td>
+					  <td align="left"class="">101/KH&nbsp;</td>
+					  					  
+					  					  
+					  <td align="right"class="">160&nbsp;</td>
+					  <td align="right"class="">0&nbsp;</td>
+					  
+					  <td align="center" class="" style="font-family:'Courier New', monospace, Courier;font-size:12px"  >12345****************&nbsp;</td>
+					  <td align="right"class="">ML019016&nbsp;</td>
+					  
+					</tr>
+					
+									<tr onMouseOver="this.style.backgroundColor='#ff9900'; this.style.cursor='hand';" 
+  onmouseout="this.style.backgroundColor='#ffffff';"> 
+					  <td align="center"class="main_3">36</td>
+					  <td align="center"class="level_1_1">&nbsp;17</td>
+					  
+					  					  <td align="right"class="level_1_1">3&nbsp;</td>
+					  <td align="right"class="level_1_1">4&nbsp;</td>
+					  <td align="right"class="level_1_1">2&nbsp;</td>
+					  <td align="left"class="level_1_1">101/KH&nbsp;</td>
+					  					  
+					  					  
+					  <td align="right"class="level_1_1">160&nbsp;</td>
+					  <td align="right"class="level_1_1">1&nbsp;</td>
+					  
+					  <td align="center" class="level_1_1" style="font-family:'Courier New', monospace, Courier;font-size:12px"  >12345****************&nbsp;</td>
+					  <td align="right"class="level_1_1">ML019017&nbsp;</td>
+					  
+					</tr>
+					
+									<tr onMouseOver="this.style.backgroundColor='#ff9900'; this.style.cursor='hand';" 
+  onmouseout="this.style.backgroundColor='#ffffff';"> 
+					  <td align="center"class="main_3">37</td>
+					  <td align="center"class="">&nbsp;17</td>
+					  
+					  					  <td align="right"class="">5&nbsp;</td>
+					  <td align="right"class="">4&nbsp;</td>
+					  <td align="right"class="">2&nbsp;</td>
+					  <td align="left"class="">101/KH&nbsp;</td>
+					  					  
+					  					  
+					  <td align="right"class="">160&nbsp;</td>
+					  <td align="right"class="">1&nbsp;</td>
+					  
+					  <td align="center" class="" style="font-family:'Courier New', monospace, Courier;font-size:12px"  >12345****************&nbsp;</td>
+					  <td align="right"class="">ML019017&nbsp;</td>
+					  
+					</tr>
+					
+									<tr onMouseOver="this.style.backgroundColor='#ff9900'; this.style.cursor='hand';" 
+  onmouseout="this.style.backgroundColor='#ffffff';"> 
+					  <td align="center"class="main_3">38</td>
+					  <td align="center"class="">&nbsp;17</td>
+					  
+					  					  <td align="right"class="">7&nbsp;</td>
+					  <td align="right"class="">4&nbsp;</td>
+					  <td align="right"class="">2&nbsp;</td>
+					  <td align="left"class="">101/KH&nbsp;</td>
+					  					  
+					  					  
+					  <td align="right"class="">160&nbsp;</td>
+					  <td align="right"class="">1&nbsp;</td>
+					  
+					  <td align="center" class="" style="font-family:'Courier New', monospace, Courier;font-size:12px"  >12345****************&nbsp;</td>
+					  <td align="right"class="">ML019017&nbsp;</td>
+					  
+					</tr>
+					
+				          
+              </table>
+		<table width="100%"  cellSpacing=0 cellPadding=0 align="center" border=0>
+				<tr class="level_1_1" style="border:none">
+				<td width="27%" ><font color="green">Tổng số: 38 lớp học phần </font> </td>
+				<td width="73%" align="right"></td>
+				</tr>
+			</table>
+			<!--			<table width="100%"  cellSpacing=0 cellPadding=0 align="center" border=0>
+				<tr class="main_3" style="border:none">				
+				<td width="100%" align="center"><a href="http://dkmh2.ctu.edu.vn/tracuu/demo.php" target="_blank">Tra cứu file excel</a></td>
+				</tr>
+			</table>-->
+					</td>
+		</tr>
+	</table>	    
+	      <input type="text" name="txtUserID" style="display:none" value="">
+	</form>
+	</td></tr>
+</table>
+	</div>
+			<div class="box-shadow"></div>
+            <div><!--END #page-body-->
+						
+            <div id="page-footer">
+                            </div><!--END #page-footer-->
+        </div><!--END #page-container-->
+    
+
+    <script language="javascript">remove_loading();</script>
+</html>
